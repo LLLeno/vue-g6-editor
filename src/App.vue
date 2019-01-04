@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Flow from '@/components/Flow.vue'
+import Flow from '@/pages/Flow.vue'
 
 export default {
   name: 'app',
