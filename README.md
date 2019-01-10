@@ -18,3 +18,7 @@ yarn run build
 # vue-g6-editor
 
 #todo 编辑文档
+
+# 在线预览地址
+
+http://www.coderlyc.xyz/vue-g6-editor/
