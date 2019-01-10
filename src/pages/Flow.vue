@@ -185,6 +185,9 @@
                 <div class="p name">名称：
                   <el-input size="mini" v-model="groupName"></el-input>
                 </div>
+                  <div class="p color">颜色：
+                  <el-color-picker v-model="groupColor" size="mini"></el-color-picker>
+                </div>
               </div>
             </div>
             <div
@@ -218,7 +221,8 @@
           <div class="mini-map" ref="minimap"></div>
         </div>
         <div class="zoom-slider">
-          <el-slider v-model="zoomRatio" show-input input-size="mini" :max="200"></el-slider>
+          <el-slider v-model="zoomRatio" show-input input-size="mini" :max="200"
+          :format-tooltip="formatTooltip"></el-slider>
         </div>
       </div>
     </div>
@@ -234,6 +238,7 @@ export default {
   components: {},
   data() {
     return {
+      page: null,
       flow: null,
       graph: null,
       nodeId: null,
@@ -243,9 +248,12 @@ export default {
       nodeColor: null,
       groupId: null,
       groupName: null,
+      groupColor: null,
       edgeId: null,
       edgeName: null,
-      multiColor: null,
+      multiId: [], // 多选模式选中的node节点id
+      multiColor: null, // 多选模式下的color，仅以最后一个为代表颜色
+      isMultiSelect: false, // 是否是多选模式
       gridCheck: false,
       zoomRatio: 100
     }
@@ -255,7 +263,6 @@ export default {
   },
   watch: {
     nodeName(newValue) {
-      // console.log(newValue)
       this.flow.update(this.nodeId, {
         label: newValue
       })
@@ -270,17 +277,41 @@ export default {
         size: `${this.nodeWidth}*${newValue}`
       })
     },
+    multiColor(newValue) {
+      this.multiId.forEach(id => {
+        this.flow.update(id, {
+          color: newValue
+        })
+      })
+    },
     nodeColor(newValue, oldValue) {
       if (oldValue === null) return
       this.flow.update(this.nodeId, {
-        color: this.getLightColor(newValue, 0.5),
-        style: { fill: newValue, stroke: this.getDarkColor(newValue, 0.2) }
+        color: newValue
       })
     },
     edgeName(newValue) {
+      if (newValue === null) return
       this.flow.update(this.edgeId, {
+        label: {
+          text: newValue
+        }
+      })
+    },
+    groupName(newValue) {
+      if (newValue === null) return
+      this.flow.update(this.groupId, {
         label: newValue
       })
+    },
+    groupColor(newValue) {
+      if (newValue === null) return
+      this.flow.update(this.groupId, {
+        color: newValue
+      })
+    },
+    gridCheck(newValue) {
+      newValue ? this.page.showGrid() : this.page.hideGrid()
     },
     zoomRatio(newValue) {
       this.graph.zoom(newValue / 100)
@@ -300,15 +331,11 @@ export default {
           container: this.$refs.flow
         },
         align: {
-          item: true, // 图项对齐
-          grid: this.gridCheck // 网格对齐
+          grid: true // 网格对齐
         },
         shortcut: {
           zoomIn: true, // 开启放大快捷键
           zoomOut: true // 开启视口缩小快捷键
-        },
-        layout: {
-          auto: true
         }
       })
       // 流程图图类
@@ -340,6 +367,21 @@ export default {
       editor.add(this.contextmenu)
       editor.add(this.detailpannel)
 
+      // 判断是否时多选模式
+      editor.on('aftercommandexecute', ev => {
+        switch (ev.command.name) {
+          case 'multiSelect':
+            this.multiId = [] // 多选前清空上一个状态
+            this.isMultiSelect = true
+            break
+          case 'undo':
+            this.isMultiSelect = false
+            break
+          default:
+            break
+        }
+      })
+
       // 流图读取数据
       this.flow.read(FLowData)
 
@@ -351,46 +393,57 @@ export default {
       this.graph.edge({
         shape: 'flow-polyline-round',
         labelRectStyle: {
-          fill: ''
+          fill: '#ffffff'
         }
       })
-      console.log(this.graph.getEdges())
 
-      // 监听鼠标按下事件
-      // this.flow.on('mousedown', ev => {
-      //   console.log(ev)
-      //   if (ev.item) {
-      //     if (ev.item.type === 'node') {
-      //       this.nodeId = ev.item.model.id
-      //       this.nodeName = ev.item.model.label;
-      //       [this.nodeWidth, this.nodeHeight] = ev.item.model.size.split('*')
-      //       this.nodeColor = ev.item.model.style.fill
-      //     } else if (ev.item.type === 'edge') {
-      //       this.edgeId = ev.item.model.id
-      //       this.edgeName = ev.item.model.label
-      //     } else if (ev.item.type === 'group') {
-      //       this.groupId = ev.item.model.label
-      //       this.groupName = ev.item.model.label
-      //     }
-      //   }
-      // })
-      // this.graph.on('click', ev => {}) // 任意点击事件
-      this.graph.on('node:click', ev => {
-        this.nodeId = ev.item.model.id
-        this.nodeName = ev.item.model.label;
-        [this.nodeWidth, this.nodeHeight] = ev.item.model.size.split('*')
-        this.nodeColor = ev.item.model.style.fill
-      }) // 节点点击事件
-      this.graph.on('edge:click', ev => {
-        console.log(ev.item.model)
-        this.edgeId = ev.item.model.id
-        this.edgeName = ev.item.model.label
-      }) // 边点击事件
-      this.graph.on('group:click', ev => {
-        this.groupId = ev.item.model.label
-        this.groupName = ev.item.model.label
-      }) // 组点击事件
-      // this.graph.on('anchor:click', ev => {}) // 锚点点击事件)
+      // 获取当前页
+      this.page = editor.getCurrentPage()
+      // 默认关闭网格对齐
+      this.page.hideGrid()
+      // 修改添加边的模型
+      this.page.changeAddEdgeModel({
+        shape: 'flow-polyline-round'
+      })
+      // 选中数据处理
+      this.page.on('afteritemselected', ev => {
+        // 判断数据类型
+        switch (ev.item.type) {
+          case 'node':
+            if (!this.isMultiSelect) {
+              this.nodeId = ev.item.model.id
+              this.nodeName = ev.item.model.label;
+              [this.nodeWidth, this.nodeHeight] = ev.item.model.size.split('*')
+              this.nodeColor = ev.item.model.color
+            } else {
+              this.multiId.push(ev.item.model.id) // 如何清空上一个状态？
+              this.multiColor = ev.item.model.color
+            }
+            console.log(this.multiId)
+            break
+          case 'edge':
+            this.edgeId = ev.item.model.id
+            this.edgeName = ev.item.model.label ? ev.item.model.label.text : null
+            break
+          case 'group':
+            this.groupId = ev.item.model.id
+            this.groupName = ev.item.model.label ? ev.item.model.label : null
+            this.groupColor = ev.item.model.color ? ev.item.model.color : '#f2f4f5'
+            break
+          default:
+            break
+        }
+      })
+
+      // 取消多选
+      this.page.on('beforeitemunselected', () => {
+        this.isMultiSelect = false
+      })
+
+      // 自动更新
+      this.graph.on('afterchangesize', () => {
+        this.graph.update()
+      })
     },
 
     /**
@@ -450,13 +503,20 @@ export default {
      */
     saveFlow() {
       const data = this.flow.save()
-      console.log(data)
+      console.log(JSON.stringify(data))
     },
 
     /**
      * @description: 下载流图
      */
-    downloadFlow() {}
+    downloadFlow() {},
+
+    /**
+     * @description: 格式化
+     */
+    formatTooltip(val) {
+      return `${val}%`
+    }
   }
 }
 </script>
@@ -549,6 +609,13 @@ export default {
         width: 100%;
         height: 100%;
         overflow: hidden;
+        transform: translate3d(0, 0, 0);
+        .graph-container {
+          transform: translate3d(0, 0, 0);
+          canvas {
+            transform: translateZ(0);
+          }
+        }
       }
       .contextmenu {
         margin: 0px;

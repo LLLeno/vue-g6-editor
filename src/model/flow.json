@@ -4,13 +4,9 @@
       "id": "node1",
       "x": 50,
       "y": 100,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签1",
       "parent": "group1",
       "index": 1
@@ -19,13 +15,9 @@
       "id": "node2",
       "x": 50,
       "y": 200,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签2",
       "parent": "group1",
       "index": 1
@@ -34,13 +26,9 @@
       "id": "node3",
       "x": 50,
       "y": 300,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签3",
       "parent": "group1",
       "index": 1
@@ -49,13 +37,9 @@
       "id": "node4",
       "x": 200,
       "y": 150,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签4",
       "parent": "group1",
       "index": 1
@@ -64,13 +48,9 @@
       "id": "node5",
       "x": 200,
       "y": 250,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签5",
       "parent": "group1",
       "index": 1
@@ -79,13 +59,9 @@
       "id": "node6",
       "x": 350,
       "y": 150,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签6",
       "parent": "group1",
       "index": 1
@@ -94,13 +70,9 @@
       "id": "node7",
       "x": 350,
       "y": 250,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签7",
       "parent": "group1",
       "index": 1
@@ -109,13 +81,9 @@
       "id": "node8",
       "x": 500,
       "y": 50,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签8",
       "parent": "group1",
       "index": 1
@@ -124,13 +92,9 @@
       "id": "node9",
       "x": 500,
       "y": 150,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签9",
       "parent": "group1",
       "index": 1
@@ -139,13 +103,9 @@
       "id": "node10",
       "x": 500,
       "y": 250,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签10",
       "parent": "group1",
       "index": 1
@@ -154,13 +114,9 @@
       "id": "node11",
       "x": 500,
       "y": 350,
-      "color": "#e7f8ff",
+      "color": "#1890FF",
       "size": "80*48",
       "shape": "rect",
-      "style": {
-        "fill": "#def3ff",
-        "stroke": "#7ec3fe"
-      },
       "label": "文本标签11",
       "parent": "group1",
       "index": 1
