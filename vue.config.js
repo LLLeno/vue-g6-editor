@@ -2,20 +2,11 @@ const path = require('path')
 
 module.exports = {
   // webpack-dev-server 的配置项
+  baseUrl: './', // 配合Github Pages 使用
+  outputDir: 'docs', // 配合Github Pages 使用
+  assetsDir: './', // 配合Github Pages 使用
   devServer: {
     host: '0.0.0.0',
     disableHostCheck: true,
-  },
-  outputDir: 'docs'
-  // configureWebpack: {
-  //   build: {
-  //     // Template for index.html
-  //     index: path.resolve(__dirname, '../docs/index.html'),
-
-  //     // Paths
-  //     assetsRoot: path.resolve(__dirname, '../docs'),
-  //     assetsSubDirectory: 'static',
-  //     assetsPublicPath: './'
-  //   }
-  // }
+  }
 }
