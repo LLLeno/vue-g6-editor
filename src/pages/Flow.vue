@@ -232,6 +232,7 @@
 <script>
 import G6Editor from '@antv/g6-editor'
 import FLowData from '@/model/flow'
+import JsPDF from 'jspdf'
 
 export default {
   name: 'Flow',
@@ -503,13 +504,32 @@ export default {
      */
     saveFlow() {
       const data = this.flow.save()
-      console.log(JSON.stringify(data))
+      console.log(data)
+      this.$message({
+        message: '数据保存成功！',
+        type: 'success'
+      })
     },
 
     /**
      * @description: 下载流图
      */
-    downloadFlow() {},
+    downloadFlow() {
+      this.graph.setFitView('cc')
+      console.log(this.graph)
+      const canvas = this.$refs.flow.childNodes[0].childNodes[0]
+      const imgData = canvas.toDataURL('image/png', 1.0)
+      // console.log(this.graph._cfg.height, this.graph._cfg.width)
+      const pdf = new JsPDF({
+        orientation: 'landscape', // 横排
+        unit: 'in',
+        // eslint-disable-next-line
+        format: [this.graph._cfg.width-329, this.graph._cfg.height-234]
+      })
+      pdf.addImage(imgData, 'JPEG', 0, 0)
+      pdf.save('download.pdf')
+      // console.log(96 / 25.4 * this.graph._cfg.height)
+    },
 
     /**
      * @description: 格式化
