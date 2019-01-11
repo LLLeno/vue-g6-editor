@@ -518,7 +518,7 @@ export default {
       this.graph.setFitView('cc')
       console.log(this.graph)
       const canvas = this.$refs.flow.childNodes[0].childNodes[0]
-      const imgData = canvas.toDataURL('image/png', 1.0)
+      const imgData = canvas.toDataURL('image/jpeg', 1.0)
       // console.log(this.graph._cfg.height, this.graph._cfg.width)
       const pdf = new JsPDF({
         orientation: 'landscape', // 横排
