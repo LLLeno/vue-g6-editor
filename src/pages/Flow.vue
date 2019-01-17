@@ -368,6 +368,17 @@ export default {
       editor.add(this.contextmenu)
       editor.add(this.detailpannel)
 
+      // 增强清晰度
+      const canvas = this.$refs.flow.childNodes[0].childNodes[0]
+      const clarity = 1.5 // 清晰度
+      const dpr = window.devicePixelRatio && window.devicePixelRatio >= clarity
+        ? window.devicePixelRatio : clarity
+      const rect = canvas.getBoundingClientRect()
+      canvas.width = rect.width * dpr
+      canvas.height = rect.height * dpr
+      const ctx = canvas.getContext('2d')
+      ctx.scale(dpr, dpr)
+
       // 判断是否时多选模式
       editor.on('aftercommandexecute', ev => {
         switch (ev.command.name) {
@@ -392,6 +403,9 @@ export default {
       this.graph.setFitView('cc')
       // 边形状映射
       this.graph.edge({
+        style: {
+          stroke: '#79838e'
+        },
         shape: 'flow-polyline-round',
         labelRectStyle: {
           fill: '#ffffff'
@@ -516,19 +530,19 @@ export default {
      */
     downloadFlow() {
       this.graph.setFitView('cc')
-      console.log(this.graph)
       const canvas = this.$refs.flow.childNodes[0].childNodes[0]
-      const imgData = canvas.toDataURL('image/jpeg', 1.0)
-      // console.log(this.graph._cfg.height, this.graph._cfg.width)
+
+      const imgData = canvas.toDataURL('image/png')
       const pdf = new JsPDF({
-        orientation: 'landscape', // 横排
-        unit: 'in',
+        orientation: 'l', // 竖排
+        unit: 'pt',
         // eslint-disable-next-line
-        format: [this.graph._cfg.width-329, this.graph._cfg.height-234]
+        format: 'a4'
       })
-      pdf.addImage(imgData, 'JPEG', 0, 0)
+      // const width = 1190.55
+      const pdfWidth = 840.51
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfWidth / canvas.width * canvas.height, '', 'FAST')
       pdf.save('download.pdf')
-      // console.log(96 / 25.4 * this.graph._cfg.height)
     },
 
     /**
