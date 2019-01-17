@@ -2,11 +2,6 @@
   <div class="editor">
     <div class="top-container">
       <div class="toolbar" ref="toolbar">
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="//at.alicdn.com/t/font_598462_3xve1872wizzolxr.css"
-        >
         <i data-command="undo" class="command iconfont icon-undo" title="撤销"></i>
         <i data-command="redo" class="command iconfont icon-redo disable" title="重做"></i>
         <span class="separator"></span>
@@ -23,8 +18,8 @@
         <i data-command="toFront" class="command iconfont icon-to-front" title="层级前置"></i>
         <span class="separator"></span>
         <i data-command="multiSelect" class="command iconfont icon-select" title="多选"></i>
-        <i data-command="addGroup" class="command iconfont icon-group disable" title="成组"></i>
-        <i data-command="unGroup" class="command iconfont icon-ungroup disable" title="解组"></i>
+        <!-- <i data-command="addGroup" class="command iconfont icon-group disable" title="成组"></i>
+        <i data-command="unGroup" class="command iconfont icon-ungroup disable" title="解组"></i> -->
       </div>
       <div class="data-opt">
         <el-button size="mini" type="primary" @click="saveFlow">保存</el-button>
@@ -36,7 +31,7 @@
         <div class="itempannel-container" ref="itempannel">
           <img
             draggable="false"
-            src="https://gw.alipayobjects.com/zos/rmsportal/ZnPxbVjKYADMYxkTQXRi.svg"
+            src="../assets/nodes/起止节点.svg"
             data-type="node"
             data-shape="flow-circle"
             data-size="72*72"
@@ -46,7 +41,7 @@
           >
           <img
             draggable="false"
-            src="https://gw.alipayobjects.com/zos/rmsportal/wHcJakkCXDrUUlNkNzSy.svg"
+            src="../assets/nodes/常规节点.svg"
             data-type="node"
             data-shape="flow-rect"
             data-size="80*48"
@@ -56,7 +51,7 @@
           >
           <img
             draggable="false"
-            src="https://gw.alipayobjects.com/zos/rmsportal/SnWIktArriZRWdGCnGfK.svg"
+            src="../assets/nodes/分叉节点.svg"
             data-type="node"
             data-shape="flow-rhombus"
             data-size="80*72"
@@ -66,7 +61,7 @@
           >
           <img
             draggable="false"
-            src="https://gw.alipayobjects.com/zos/rmsportal/rQMUhHHSqwYsPwjXxcfP.svg"
+            src="../assets/nodes/模型节点.svg"
             data-type="node"
             data-shape="flow-capsule"
             data-size="80*48"
@@ -82,60 +77,60 @@
           <div data-status="node-selected" class="menu" style="display: none;">
             <div data-command="copy" class="command disable">
               <span>复制</span>
-              <span>copy</span>
+              <!-- <span>copy</span> -->
             </div>
             <div data-command="delete" class="command disable">
               <span>删除</span>
-              <span>delete</span>
+              <!-- <span>delete</span> -->
             </div>
           </div>
           <div data-status="edge-selected" class="menu" style="display: none;">
             <div data-command="delete" class="command disable">
               <span>删除</span>
-              <span>delete</span>
+              <!-- <span>delete</span> -->
             </div>
           </div>
           <div data-status="group-selected" class="menu" style="display: none;">
             <div data-command="copy" class="command disable">
               <span>复制</span>
-              <span>copy</span>
+              <!-- <span>copy</span> -->
             </div>
             <div data-command="delete" class="command disable">
               <span>删除</span>
-              <span>delete</span>
+              <!-- <span>delete</span> -->
             </div>
             <div data-command="unGroup" class="command disable">
               <span>解组</span>
-              <span>unGroup</span>
+              <!-- <span>unGroup</span> -->
             </div>
           </div>
           <div data-status="canvas-selected" class="menu" style="display: block;">
             <div data-command="undo" class="command disable">
               <span>撤销</span>
-              <span>undo</span>
+              <!-- <span>undo</span> -->
             </div>
             <div data-command="redo" class="command disable">
               <span>重做</span>
-              <span>redo</span>
+              <!-- <span>redo</span> -->
             </div>
             <div data-command="pasteHere" class="command disable">
               <span>粘贴</span>
-              <span>pasteHere</span>
+              <!-- <span>pasteHere</span> -->
             </div>
           </div>
           <div data-status="multi-selected" class="menu" style="display: none;">
             <div data-command="copy" class="command disable">
               <span>复制</span>
-              <span>copy</span>
+              <!-- <span>copy</span> -->
             </div>
             <div data-command="paste" class="command disable">
               <span>粘贴</span>
-              <span>paste</span>
+              <!-- <span>paste</span> -->
             </div>
-            <div data-command="addGroup" class="command disable">
+            <!-- <div data-command="addGroup" class="command disable">
               <span>归组</span>
               <span>addGroup</span>
-            </div>
+            </div> -->
             <div data-command="delete" class="command disable">
               <span>删除</span>
               <span>delete</span>
@@ -233,6 +228,8 @@
 import G6Editor from '@antv/g6-editor'
 import FLowData from '@/model/flow'
 import JsPDF from 'jspdf'
+
+import '../assets/icon/font.css'
 
 export default {
   name: 'Flow',
@@ -333,6 +330,9 @@ export default {
         },
         align: {
           grid: true // 网格对齐
+        },
+        grid: {
+          cell: 20 // 网孔尺寸
         },
         shortcut: {
           zoomIn: true, // 开启放大快捷键
@@ -529,6 +529,7 @@ export default {
      * @description: 下载流图
      */
     downloadFlow() {
+      this.page.hideGrid()
       this.graph.setFitView('cc')
       const canvas = this.$refs.flow.childNodes[0].childNodes[0]
 
@@ -643,13 +644,6 @@ export default {
         width: 100%;
         height: 100%;
         overflow: hidden;
-        transform: translate3d(0, 0, 0);
-        .graph-container {
-          transform: translate3d(0, 0, 0);
-          canvas {
-            transform: translateZ(0);
-          }
-        }
       }
       .contextmenu {
         margin: 0px;
