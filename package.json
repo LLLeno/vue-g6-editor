@@ -1,29 +1,48 @@
 {
   "name": "vue-g6-editor",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "private": false,
+  "description": "基于vue的G6-Editor基础流程图",
+  "author": "liyucan <1206497655@qq.com>",
+  "keywords": [
+    "vue.js",
+    "vue-plugin",
+    "flow"
+  ],
+  "main": "lib/BaseFlow.umd.min.js",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name BaseFlow --dest lib packages/index.js"
   },
   "dependencies": {
     "@antv/g6-editor": "^1.2.0",
     "@vue/eslint-config-airbnb": "^4.0.0",
     "element-ui": "^2.4.11",
     "jspdf": "^1.5.3",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-g6-editor": "^0.1.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-prettier": "^4.0.0",
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^5.2.0",
+    "css-loader": "^2.1.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
+    "file-loader": "^3.0.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
+    "vue-loader": "^15.6.0",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
