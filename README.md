@@ -1,24 +1,31 @@
 # vue-g6-editor
 
-## Project setup
+一个基于vue & antv/g6-editor封装的基础流程图插件
+
+## install
 ```
-yarn install
+npm install --save vue-g6-editor 
 ```
 
-### Compiles and hot-reloads for development
+## use
 ```
-yarn run serve
+import BaseFlow from 'vue-g6-editor'
+import 'vue-g6-editor/lib/BaseFlow.css'
+
+<BaseFlow :data=data :getData=getData />
+
+properties:
+  data: 传入数据，数据格式参考：https://www.yuque.com/antv/g6-editor/flow-api#tg9kpf
+        或者参考example/model文件夹下的flow.json
+
+methods:
+  getData: 获取数据接口，传入callback，如：
+  getData(data) {
+    console.log(data)
+    ...
+  }
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-# vue-g6-editor
-
-#todo 编辑文档
-
-# 在线预览地址
+# online preview
 
 http://www.coderlyc.xyz/vue-g6-editor/

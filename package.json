@@ -23,7 +23,7 @@
     "element-ui": "^2.4.11",
     "jspdf": "^1.5.3",
     "vue": "^2.5.17",
-    "vue-g6-editor": "^0.1.9"
+    "vue-g6-editor": "^0.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",
