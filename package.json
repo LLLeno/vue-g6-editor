@@ -21,7 +21,7 @@
     "@antv/g6-editor": "^1.2.0",
     "@vue/eslint-config-airbnb": "^4.0.0",
     "element-ui": "^2.4.11",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "vue": "^2.5.17",
     "vue-g6-editor": "^0.2.0"
   },
